@@ -1,0 +1,64 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+	#c {
+		margin: auto;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+	}
+</style>
+<canvas id="c" width="400" height="400"></canvas>
+<script>
+	let c = document.querySelector("#c");
+	let ctx = c.getContext("2d");
+	
+	ctx.font = "bold italic 30px Times New Roman";
+	
+	const WIDTH = c.width;
+	const HEIGHT = c.height;
+	
+	const R = 100;
+	
+	const X = WIDTH/2;
+	const Y = HEIGHT/2;
+	
+	// 环宽度
+	let ring = 30;
+	
+	let progress = 0;
+	
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+	
+	let handle = setInterval(function() {
+		// 背景环
+		bg();
+
+		// 进度环
+		ctx.beginPath();
+		ctx.arc(X, Y, R, Math.PI*3/2, Math.PI*3/2 + Math.PI*2*progress/100);
+		ctx.strokeStyle = "rgba(255, 0, 0, 0.3)";
+		ctx.stroke();
+		
+		// 百分比
+		ctx.fillText(progress+"%", X, Y);
+		
+		if (progress == 100)
+			clearInterval(handle);
+		
+		progress += 10;
+	}, 500);
+	
+	// 定义背景环
+	function bg() {
+		ctx.clearRect(0, 0, WIDTH,HEIGHT);
+		
+		ctx.beginPath();
+		ctx.strokeStyle = "lightgray";
+		ctx.lineWidth = ring;
+		ctx.arc(X, Y, R, 0, Math.PI*2);
+		ctx.stroke();
+	}
+</script>
